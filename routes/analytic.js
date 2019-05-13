@@ -1,5 +1,6 @@
 const express = require('express')
 const controller = require('../controllers/analytic')
+const passport = require('passport')
 const router = express.Router()
 
 router.get('/overview', controller.overview)
