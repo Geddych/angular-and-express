@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap} from 'rxjs/operators'
 import { tokenReference } from '@angular/compiler';
+import { registerContentQuery } from '@angular/core/src/render3';
 
 
 @Injectable({
@@ -16,8 +17,8 @@ export class AuthService {
     constructor(private http:HttpClient) {
     }
     
-    register() {
-        
+    register(user:User):Observable<User> {
+        return this.http.post<User>('/api/auth/register',user)
     }
     
     login(user:User): Observable<{token:string}> {
