@@ -12,7 +12,7 @@ const orderhRoutes = require('./routes/order')
 const keys = require('./config/keys')
 const posRoutes = require('./routes/position')
 
-mongoose.connect(keys.mongoURI)
+mongoose.connect(keys.mongoURI,{useNewUrlParser: true})
 .then(() => console.log('Mongo worked'))
 .catch(() => console.log(error))
 

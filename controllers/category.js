@@ -1,5 +1,6 @@
 const Category = require('../models/Category')
 const Position = require('../models/Position')
+const mongoose = require('mongoose')
 const errorHandler = require('../utils/errorHandler')
 
 module.exports.getAll = async function(req,res) {
@@ -14,10 +15,8 @@ module.exports.getAll = async function(req,res) {
 }
 module.exports.getById = async function(req,res) {
     try {
-        const category = await Category.findById({
-            id:req.params.id
-        })
-        res.status(200).json(categories)
+        const category = await Category.findById(req.params.id)
+        res.status(200).json(category)
     } catch (error) {
         errorHandler(res,error)
     }
@@ -35,11 +34,13 @@ module.exports.remove = async function(req,res) {
     }
 }
 module.exports.create = async function(req,res) {
+    const category = new Category({
+        name:req.body.name,
+        user:req.user.id
+    })
+    
     try {
-        const category = new Category({
-            name:req.body.name,
-            user:req.user.id
-        }).save()
+        await category.save()
         res.status(201).json(category)
     } catch (error) {
         errorHandler(res,error)

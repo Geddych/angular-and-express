@@ -43,7 +43,7 @@ module.exports.register = async function(req,res) {
             email:req.body.email,
             password:bcrypt.hashSync(password,salt)
         })
-        res.status(200).json(positions)
+        
 
         try{
             await user.save()
