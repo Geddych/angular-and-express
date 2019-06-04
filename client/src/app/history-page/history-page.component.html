@@ -1,3 +1,61 @@
-<p>
-  history-page works!
-</p>
+<div class="page-title">
+  <h4>История заказов</h4>
+  <button class="btn btn-small" 
+  data-tooltip="Открыть фильтр"
+  data-position="left"
+  (click)="isFilterVisible = !isFilterVisible"
+  [ngClass] = "{'active' : isFiltereVisible,
+                'red': isFiltered()}"
+  [disabled]="isFiltered()"
+  #tooltip>
+      <i class="material-icons">filter_list</i>
+  </button>
+</div>
+
+<app-history-filter
+*ngIf = "isFilterVisible"
+(onFilter)="applyFilter($event)"></app-history-filter>
+
+
+<div *ngIf = '!reloading;else reloader'>
+  <div *ngIf = "orders.length > 0; else empty">
+<app-history-list [orders]="orders"></app-history-list>
+
+<div class="center mb2"
+*ngIf = "!noMore">
+  <button class="btn waves-effect grey darken-1 btn-small"
+  (click)="loadMore()"
+  *ngIf = "!loading;else loader">Загрузить еще</button>
+</div>
+</div>
+
+<ng-template #empty>
+  <div class="center">
+    Лист заказов пуст
+  </div>
+</ng-template>
+
+<ng-template #loader>
+  <app-loader></app-loader>
+</ng-template>
+
+</div>
+
+
+<ng-template #reloader>
+  <app-loader></app-loader>
+</ng-template>
+
+
+
+
+<!--Floating button-->
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large red">
+        <i class="large material-icons">add</i>
+    </a>
+    <ul>
+        <li><a class="btn-floating green"><i class="material-icons">assignment</i></a></li>
+        <li><a class="btn-floating blue"><i class="material-icons">list</i></a></li>
+    </ul>
+</div>

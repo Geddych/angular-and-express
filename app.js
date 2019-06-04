@@ -15,6 +15,9 @@ const posRoutes = require('./routes/position')
 mongoose.connect(keys.mongoURI,{useNewUrlParser: true})
 .then(() => console.log('Mongo worked'))
 .catch(() => console.log(error))
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 
 app.use(passport.initialize())
 require('./middleware/passport')(passport)

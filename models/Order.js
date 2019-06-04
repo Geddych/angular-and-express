@@ -1,10 +1,14 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
+
+    Date.now = function now() {
+      return new Date().getTime();
+    }
 const orderSchema = new Schema ({
     date:{
         type: Date,
-        default:Date.Now,
+        default:Date.now
     },
     order:{
         type:Number,
@@ -15,6 +19,9 @@ const orderSchema = new Schema ({
             type:String
         },
         cost:{
+            type:Number
+        },
+        quantity: {
             type:Number
         }
     }],

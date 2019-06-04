@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl,Validators } from '@angular/forms';
 import { СategoryService } from 'src/app/shared/services/category.service';
 import { switchMap } from 'rxjs/operators';
@@ -20,7 +20,8 @@ export class CategoryFormComponent implements OnInit {
   category : Category
 
   constructor(private route:ActivatedRoute,
-    private categoriesService: СategoryService
+    private categoriesService: СategoryService,
+    private router: Router
    ) { }
 
   ngOnInit() {
@@ -74,6 +75,18 @@ export class CategoryFormComponent implements OnInit {
     )
       }
 
-  }
+      deleteCategory() {
+        const decision = window.confirm(`Уверены что хотите удалить категорию ${this.category.name}`)
+        if (decision) {
+          this.categoriesService.delete(this.category._id).subscribe(
+            response => MaterialService.toast(response.message),
+            error => MaterialService.toast(error.error.message),
+            ()=> this.router.navigate(['/categories'])
+          )
+        }
+      }
+  
+  
+    }
 
 

@@ -25,32 +25,39 @@ module.exports.getAll = async function(req,res) {
     }
 
     try {
-         const orders = await Order
+        const orders = await Order
          .find(query)
          .sort({date:-1})
          .skip(+req.query.offset)
          .limit(+req.query.limit)
+         res.status(200).json(orders)
     } catch (error) {
-        errorHandler(res,e)
+        errorHandler(res,error)
     }
-    res.status(200).json(orders)
+    
 }
 module.exports.create = async function(req,res) {
     try {
 
         const lastOrder = await Order
         .findOne({user:req.user.id})
-        .sort({date:-1})
+        .sort({order:-1})
 
-        const maxOrder = lastOrder? lastOrder.order : 0
+        let maxOrder = 0
+        if (lastOrder) {
+            maxOrder = lastOrder.order
+        } else {
+            maxOrder = 0
+        }
+        // lastOrder ? lastOrder.order : 0
 
         const order = await new Order({
-            user:req.user,id,
+            user:req.user.id,
             list:req.body.list,
             order: maxOrder + 1
-        }).save
+        }).save()
         res.status(201).json(order)
     } catch (error) {
-        errorHandler(res,e)
+        errorHandler(res,error)
     }
 }

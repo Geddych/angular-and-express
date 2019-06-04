@@ -5,7 +5,8 @@
       {{ isNew ? 'Добавить':'Редактировать'}} категорию
   </h4>
   <span>
-      <button class="btn btn-small red">
+      <button class="btn btn-small red" (click) = "deleteCategory()"
+      *ngIf  ="!isNew">
         <i class="material-icons">delete</i>
       </button>
     </span>
@@ -19,7 +20,7 @@
   class="col s12 l6">
       <div class="input-field">
           <input id="name" type="text"
-          formControlName = "name"
+          formControlName = 'name'
           [ngClass]="{'invalid': form.get('name').invalid && form.get('name').touched}">
           <label for="name">Название</label>
           <span class="helper-text red-text"
@@ -40,4 +41,8 @@
     </form>
   </div>
 
-  <app-position-form></app-position-form>
+  <app-position-form
+  *ngIf = "category?._id"
+  [categoryId] = "category._id">
+    
+  </app-position-form>
