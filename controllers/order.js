@@ -49,8 +49,7 @@ module.exports.create = async function(req,res) {
         } else {
             maxOrder = 0
         }
-        // lastOrder ? lastOrder.order : 0
-
+       
         const order = await new Order({
             user:req.user.id,
             list:req.body.list,
